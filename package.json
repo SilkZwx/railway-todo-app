@@ -28,8 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src\\***\\**\\*.jsx",
-    "fmt": "prettier --write src\\***\\**\\*.jsx"
+    "lint": "eslint --fix src\\***\\**\\*.js*",
+    "fmt": "prettier --write src\\***\\**\\*.js*"
   },
   "eslintConfig": {
     "extends": [
