@@ -5,12 +5,15 @@ import { url } from "../const";
 import { Header } from "../components/Header";
 import "./newTask.scss";
 import { useNavigate } from "react-router-dom";
+import { TimeLimit } from "../components/TimeLimit";
+import dayjs, { Dayjs } from 'dayjs';
 
 export const NewTask = () => {
   const [selectListId, setSelectListId] = useState();
   const [lists, setLists] = useState([]);
   const [title, setTitle] = useState("");
   const [detail, setDetail] = useState("");
+  const [limit, setLimit] = useState(dayjs());
   const [errorMessage, setErrorMessage] = useState("");
   const [cookies] = useCookies();
   const navigate = useNavigate();
@@ -22,6 +25,7 @@ export const NewTask = () => {
       title: title,
       detail: detail,
       done: false,
+      limit: limit.format('YYYY-MM-DDTHH:mm:ssZ')
     };
 
     axios
@@ -81,6 +85,15 @@ export const NewTask = () => {
             onChange={handleTitleChange}
             className="new-task-title"
           />
+          <br />
+          <label>期限</label>
+          <br />
+          <br />
+          <TimeLimit 
+            limit={limit}
+            setLimit={setLimit}
+          />
+          <br />
           <br />
           <label>詳細</label>
           <br />

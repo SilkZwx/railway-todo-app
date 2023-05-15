@@ -40,6 +40,7 @@ export const Home = () => {
           },
         })
         .then((res) => {
+          console.log(res.data.tasks);
           setTasks(res.data.tasks);
         })
         .catch((err) => {
