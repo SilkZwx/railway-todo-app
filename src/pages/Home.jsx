@@ -5,6 +5,7 @@ import axios from "axios";
 import { Header } from "../components/Header";
 import { url } from "../const";
 import "./home.scss";
+import dayjs from "dayjs";
 
 export const Home = () => {
   const [isDoneDisplay, setIsDoneDisplay] = useState("todo"); // todo->未完了 done->完了
@@ -40,7 +41,6 @@ export const Home = () => {
           },
         })
         .then((res) => {
-          console.log(res.data.tasks);
           setTasks(res.data.tasks);
         })
         .catch((err) => {
@@ -127,7 +127,7 @@ export const Home = () => {
 const Tasks = (props) => {
   const { tasks, selectListId, isDoneDisplay } = props;
   if (tasks === null) return <></>;
-
+  
   if (isDoneDisplay == "done") {
     return (
       <ul>
@@ -144,6 +144,9 @@ const Tasks = (props) => {
                 {task.title}
                 <br />
                 {task.done ? "完了" : "未完了"}
+                <br />
+                {"期限: " + dayjs(task.limit).format('YYYY-MM-DD HH:mm')}
+                <br />
               </Link>
             </li>
           ))}
@@ -166,6 +169,13 @@ const Tasks = (props) => {
               {task.title}
               <br />
               {task.done ? "完了" : "未完了"}
+              <br />
+              {"期限: " + dayjs(task.limit).format('YYYY-MM-DD HH:mm')}
+              <br />
+              {dayjs(task.limit).diff(dayjs()) > 0 ? "残り時間: " + Math.floor(dayjs(task.limit).diff(dayjs(), 'minute') / (60*24)) + "日"
+                + Math.floor(dayjs(task.limit).diff(dayjs(), 'minute') / 60) + "時間"
+                + dayjs(task.limit).diff(dayjs(), 'minute') % 60 + "分": "期限切れ"}
+              <br />
             </Link>
           </li>
         ))}

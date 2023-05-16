@@ -4,6 +4,8 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { url } from "../const";
 import { useNavigate, useParams } from "react-router-dom";
+import dayjs, { Dayjs } from 'dayjs'; 
+import { TimeLimit } from "../components/TimeLimit";
 import "./editTask.scss";
 
 export const EditTask = () => {
@@ -13,6 +15,7 @@ export const EditTask = () => {
   const [title, setTitle] = useState("");
   const [detail, setDetail] = useState("");
   const [isDone, setIsDone] = useState();
+  const [limit, setLimit] = useState(dayjs());
   const [errorMessage, setErrorMessage] = useState("");
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
@@ -23,6 +26,7 @@ export const EditTask = () => {
       title: title,
       detail: detail,
       done: isDone,
+      limit: limit.format("YYYY-MM-DDTHH:mm:ssZ"),
     };
 
     axios
@@ -32,7 +36,7 @@ export const EditTask = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         navigate("/");
       })
       .catch((err) => {
@@ -67,6 +71,7 @@ export const EditTask = () => {
         setTitle(task.title);
         setDetail(task.detail);
         setIsDone(task.done);
+        setLimit(dayjs(task.limit));
       })
       .catch((err) => {
         setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
@@ -88,6 +93,15 @@ export const EditTask = () => {
             className="edit-task-title"
             value={title}
           />
+          <br />
+          <label>期限</label>
+          <br />
+          <br />
+          <TimeLimit 
+            limit={limit}
+            setLimit={setLimit}
+          />
+          <br />
           <br />
           <label>詳細</label>
           <br />
