@@ -176,7 +176,7 @@ const Tasks = (props) => {
               {"期限: " + dayjs(task.limit).format('YYYY-MM-DD HH:mm')}
               <br />
               {dayjs(task.limit).diff(dayjs()) > 0 ? "残り時間: " + Math.floor(dayjs(task.limit).diff(dayjs(), 'minute') / (60*24)) + "日"
-                + Math.floor(dayjs(task.limit).diff(dayjs(), 'minute') / 60) + "時間"
+                + Math.floor(dayjs(task.limit).diff(dayjs(), 'minute') / 60 % 24) + "時間"
                 + dayjs(task.limit).diff(dayjs(), 'minute') % 60 + "分": "期限切れ"}
               <br />
             </Link>
